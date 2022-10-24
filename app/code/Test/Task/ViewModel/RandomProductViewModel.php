@@ -2,16 +2,20 @@
 
 namespace Test\Task\ViewModel;
 
-use Magento\Catalog\Api\Data\ProductInterface;
+use Magento\Catalog\Api\Data\ProductInterface as Product;
+use Magento\Catalog\Block\Product\ListProduct;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
-use Magento\Framework\View\Element\Context;
 use Test\Task\Helper\Data;
-use \Magento\Checkout\Helper\Cart as CartHelper;
-use \Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Catalog\Block\Product\Image;
 
 class RandomProductViewModel implements ArgumentInterface
 {
+    /**
+     * @var Product
+     */
+    private $randomProduct;
+
     /**
      * @var Data
      */
@@ -23,56 +27,94 @@ class RandomProductViewModel implements ArgumentInterface
     protected $productCollectionFactory;
 
     /**
-     * @var CartHelper
+     * @var ListProduct
      */
-    protected $cartHelper;
-    /**
-     * @var ProductRepositoryInterface
-     */
-    protected $productRepository;
+    protected $listProduct;
 
     /**
      * @param Data $helper
      * @param ProductCollectionFactory $productCollectionFactory
-     * @param CartHelper $cartHelper
-     * @param ProductRepositoryInterface $productRepository
+     * @param ListProduct $listProduct
      */
     public function __construct(
         Data                     $helper,
         ProductCollectionFactory $productCollectionFactory,
-        CartHelper $cartHelper,
-        ProductRepositoryInterface $productRepository
+        ListProduct              $listProduct
+
     )
     {
-        $this->cartHelper = $cartHelper;
-        $this->productRepository = $productRepository;
-
+        $this->listProduct = $listProduct;
         $this->helper = $helper;
         $this->productCollectionFactory = $productCollectionFactory;
     }
 
-
-    public function getBlockTitle()
+    /**
+     * @return string
+     */
+    public function getBlockTitle(): string
     {
         return $this->helper->getTitle();
     }
 
     /**
-     * @return ProductInterface
+     * @return bool
      */
-    public function getRandomProduct(): ProductInterface
+    public function getRedirecrt(): bool
     {
-        $productCollection = $this->productCollectionFactory->create();
-
-        $productCollection->getSelect()->orderRand();
-
-        return $productCollection->getFirstItem();
-
+        return $this->helper->isRedirectEnabled();
     }
-    public function getAddToCartUrl($productSku)
+
+    /**
+     * @return Product
+     */
+    private function getRandomProduct(): Product
     {
-        $product = $this->productRepository->get($productSku);
-        return $this->cartHelper->getAddUrl($product);
+        if ($this->randomProduct === null) {
+            $productCollection = $this->productCollectionFactory->create();
+
+            $productCollection
+                ->addAttributeToSelect('name')
+                ->addAttributeToSelect('price')
+                ->getSelect()
+                ->where('type_id = ?', 'simple')
+                ->orderRand()
+                ->limit(1);
+            $this->randomProduct = $productCollection->getFirstItem();
+        }
+
+        return $this->randomProduct;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProductName(): string
+    {
+         return $this->getRandomProduct()->getName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getProductPrice(): string
+    {
+        return $this->listProduct->getProductPrice($this->getRandomProduct());
+    }
+
+    /**
+     * @return Image
+     */
+    public function getProductImage(): Image
+    {
+        return $this->listProduct->getImage($this->getRandomProduct(),'category_page_grid');
+    }
+
+    /**
+     * @return string
+     */
+    public function getAddToCartUrl(): string
+    {
+        return $this->listProduct->getAddToCartUrl($this->getRandomProduct());
     }
 
 

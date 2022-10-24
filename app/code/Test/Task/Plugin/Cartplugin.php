@@ -3,32 +3,68 @@
 namespace Test\Task\Plugin;
 
 use Magento\Framework\App\Request\Http;
-use Magento\Framework\UrlInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\UrlInterface as Url;
 use Magento\Store\Model\StoreManagerInterface;
+use Test\Task\Helper\Data;
 
-class Cartplugin
+class CartPlugin
 {
-    protected $_url;
+    /**
+     * @var Http
+     */
     protected $request;
-    protected $helperdata;
+
+    /**
+     * @var StoreManagerInterface
+     */
     protected $storeManager;
 
-    public function __construct(UrlInterface          $url,
-                                Http                  $request,
-                                StoreManagerInterface $storeManager)
+    /**
+     * @var Data
+     */
+    protected $helper;
+
+    /**
+     * @var Url
+     */
+    protected $url;
+
+    /**
+     * @param Data $helper
+     * @param Url $url
+     * @param Http $request
+     * @param StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        Data                  $helper,
+        Url                   $url,
+        Http                  $request,
+        StoreManagerInterface $storeManager)
     {
-        $this->_url = $url;
+        $this->helper = $helper;
+        $this->url = $url;
         $this->request = $request;
         $this->storeManager = $storeManager;
     }
 
-    public function beforeAddProduct($subject, $productInfo, $requestInfo = null)
+    /**
+     * @param $subject
+     * @param $productInfo
+     * @param $requestInfo
+     * @return array
+     * @throws NoSuchEntityException
+     */
+    public function beforeAddProduct($subject, $productInfo, $requestInfo = null): array
     {
-        $cartrtnurl = $this->storeManager->getStore()->getBaseUrl() . "checkout/";
-        if ($cartrtnurl != '' && isset($cartrtnurl)) {
-            $accUrl = $this->_url->getUrl($cartrtnurl);
-            $this->request->setParam('return_url', $accUrl);
+        if ($this->helper->isRedirectEnabled()) {
+            $cartUrl = $this->storeManager->getStore()->getBaseUrl() . "checkout/";
+            if ($cartUrl != '' && isset($cartUrl)) {
+                $accUrl = $this->url->getUrl($cartUrl);
+                $this->request->setParam('return_url', $accUrl);
+            }
         }
+
         return [$productInfo, $requestInfo];
     }
 }

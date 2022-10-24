@@ -7,7 +7,7 @@
         <section id="task" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
             <class>separator-top</class>
             <label>Task</label>
-            <tab>test</tab>
+            <tab>task</tab>
             <resource>Test_Task::task_config</resource>
             <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
                 <label>General</label>

@@ -1,10 +1,19 @@
 <?php
 /** @var Magento\Framework\View\Element\Template $block */
+/** @var Test\Task\ViewModel\RandomProductViewModel $vm */
 $vm = $block->getViewModel();
-$sku = $vm->getRandomProduct()->getSku();
 ?>
 <h1><?= $vm->getBlockTitle(); ?></h1>
+<h1><?= $vm->getProductImage()->toHtml(); ?></h1>
 
-<h4><?= $sku ?></h4>
+<h4><?= $vm->getProductName(); ?></h4>
+<h4><?= $vm->getProductPrice(); ?></h4>
 
-<a href="<?= $vm->getAddToCartUrl($sku) ?>">Add to Cart</a>
+<form data-role="tocart-form" action="<?= $vm->getAddToCartUrl() ?>" method="post">
+    <?= $block->getBlockHtml('formkey') ?>
+    <div class="btn">
+        <button type="submit" title="Add to Cart" class="action tocart primary">
+            <span>Add to Cart</span>
+        </button>
+    </div>
+</form>
