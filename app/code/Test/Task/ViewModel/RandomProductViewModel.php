@@ -3,11 +3,11 @@
 namespace Test\Task\ViewModel;
 
 use Magento\Catalog\Api\Data\ProductInterface as Product;
+use Magento\Catalog\Block\Product\Image;
 use Magento\Catalog\Block\Product\ListProduct;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Test\Task\Helper\Data;
-use Magento\Catalog\Block\Product\Image;
 
 class RandomProductViewModel implements ArgumentInterface
 {
@@ -40,9 +40,7 @@ class RandomProductViewModel implements ArgumentInterface
         Data                     $helper,
         ProductCollectionFactory $productCollectionFactory,
         ListProduct              $listProduct
-
-    )
-    {
+    ) {
         $this->listProduct = $listProduct;
         $this->helper = $helper;
         $this->productCollectionFactory = $productCollectionFactory;
@@ -82,7 +80,7 @@ class RandomProductViewModel implements ArgumentInterface
      */
     public function getProductName(): string
     {
-         return $this->getRandomProduct()->getName();
+        return $this->getRandomProduct()->getName();
     }
 
     /**
@@ -98,7 +96,7 @@ class RandomProductViewModel implements ArgumentInterface
      */
     public function getProductImage(): Image
     {
-        return $this->listProduct->getImage($this->getRandomProduct(),'category_page_grid');
+        return $this->listProduct->getImage($this->getRandomProduct(), 'category_page_grid');
     }
 
     /**
@@ -108,6 +106,4 @@ class RandomProductViewModel implements ArgumentInterface
     {
         return $this->listProduct->getAddToCartUrl($this->getRandomProduct());
     }
-
-
 }

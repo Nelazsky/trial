@@ -40,8 +40,8 @@ class CartPlugin
         Data                  $helper,
         Url                   $url,
         Http                  $request,
-        StoreManagerInterface $storeManager)
-    {
+        StoreManagerInterface $storeManager
+    ) {
         $this->helper = $helper;
         $this->url = $url;
         $this->request = $request;

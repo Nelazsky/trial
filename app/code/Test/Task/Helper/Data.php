@@ -6,7 +6,6 @@ use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 use Magento\Store\Model\ScopeInterface;
 
-
 class Data extends AbstractHelper
 {
     const  XML_PATH_CHECKOUT_BLOCK_TITLE = 'task/general/block_title';
