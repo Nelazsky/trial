@@ -4,7 +4,7 @@
         <task>
             <general>
                 <checkout_redirect>1</checkout_redirect>
-                <block_title>Awesome Title</block_title>
+                <block_title>My Awesome Title</block_title>
             </general>
         </task>
     </default>

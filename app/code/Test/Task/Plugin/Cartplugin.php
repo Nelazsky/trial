@@ -58,10 +58,10 @@ class CartPlugin
     public function beforeAddProduct($subject, $productInfo, $requestInfo = null): array
     {
         if ($this->helper->isRedirectEnabled()) {
-            $cartUrl = $this->storeManager->getStore()->getBaseUrl() . "checkout/";
-            if ($cartUrl != '' && isset($cartUrl)) {
-                $accUrl = $this->url->getUrl($cartUrl);
-                $this->request->setParam('return_url', $accUrl);
+            $checkoutUrl = $this->storeManager->getStore()->getBaseUrl() . "checkout/";
+            if ($checkoutUrl != '' && isset($checkoutUrl)) {
+                $fullCheckoutUrl = $this->url->getUrl($checkoutUrl);
+                $this->request->setParam('return_url', $fullCheckoutUrl);
             }
         }
 

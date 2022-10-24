@@ -57,14 +57,6 @@ class RandomProductViewModel implements ArgumentInterface
     }
 
     /**
-     * @return bool
-     */
-    public function getRedirecrt(): bool
-    {
-        return $this->helper->isRedirectEnabled();
-    }
-
-    /**
      * @return Product
      */
     private function getRandomProduct(): Product

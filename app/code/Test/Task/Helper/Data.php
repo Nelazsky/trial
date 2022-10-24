@@ -12,6 +12,9 @@ class Data extends AbstractHelper
     const  XML_PATH_CHECKOUT_BLOCK_TITLE = 'task/general/block_title';
     const  XML_PATH_CHECKOUT_REDIRECT = 'task/general/checkout_redirect';
 
+    /**
+     * @param Context $context
+     */
     public function __construct(Context $context)
     {
         parent::__construct($context);
