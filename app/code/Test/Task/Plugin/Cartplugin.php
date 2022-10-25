@@ -59,7 +59,7 @@ class CartPlugin
     {
         if ($this->helper->isRedirectEnabled()) {
             $checkoutUrl = $this->storeManager->getStore()->getBaseUrl() . "checkout/";
-            if ($checkoutUrl != '' && isset($checkoutUrl)) {
+            if ($checkoutUrl !== '' && isset($checkoutUrl)) {
                 $fullCheckoutUrl = $this->url->getUrl($checkoutUrl);
                 $this->request->setParam('return_url', $fullCheckoutUrl);
             }

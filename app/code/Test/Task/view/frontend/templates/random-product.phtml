@@ -1,9 +1,9 @@
 <?php
-/** @var Magento\Framework\View\Element\Template $block */
+/** @var Test\Task\Block\RandomProduct $block */
 /** @var Test\Task\ViewModel\RandomProductViewModel $viewModel */
 $viewModel = $block->getViewModel();
 ?>
-<h2><?= $viewModel->getBlockTitle(); ?></h2>
+<h2><?= $block->getBlockTitle(); ?></h2>
 <div class="product-wrapper">
     <?= $viewModel->getProductImage()->toHtml(); ?>
     <p><?= $viewModel->getProductName(); ?></p>
